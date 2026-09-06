@@ -1,7 +1,7 @@
 {
   "name": "benteen-events",
   "version": "0.1.0",
-  "description": "Standalone e-vites: design an invitation, send it, and track who's coming — for any event.",
+  "description": "Standalone e-vites: design an invitation, send it, and track who's coming \u2014 for any event.",
   "author": "Patrick Bennett",
   "private": true,
   "type": "module",
@@ -22,11 +22,13 @@
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.116",
+    "@iconify-json/simple-icons": "^1.2.90",
     "@nuxt/ui": "^4.9.0",
     "@nuxtjs/supabase": "^2.0.9",
     "@tiptap/pm": "^3.28.0",
     "@tiptap/starter-kit": "^3.28.0",
     "@tiptap/vue-3": "^3.26.1",
+    "dompurify": "^3.4.12",
     "nuxt": "^4.4.8",
     "resend": "^6.17.2",
     "tailwindcss": "^4.3.3",

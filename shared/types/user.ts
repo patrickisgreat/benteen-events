@@ -2,7 +2,7 @@
  *  from the OAuth metadata on first sign-in. */
 export interface Profile {
   id: string
-  email: string
+  email: string | null
   display_name: string | null
   avatar_url: string | null
 }
