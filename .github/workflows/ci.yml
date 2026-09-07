@@ -23,9 +23,16 @@ jobs:
     with:
       node-version: '22'
       package-manager: npm
-      typecheck-command: typecheck
-      # This repo's script is `test`, not the toolkit's `test:ci` default.
-      test-command: test
+      # Every command needs the `run ` prefix. The toolkit invokes them as
+      # `$MANAGER $COMMAND`, which suits pnpm (`pnpm lint` runs the script) but
+      # not npm, where only a few names are built-ins — `npm format` is an
+      # unknown-command error. The toolkit's own self-CI passes `run test` for
+      # the same reason.
+      lint-command: run lint
+      format-command: run format
+      typecheck-command: run typecheck
+      test-command: run test
+      build-command: run build
       # No Playwright here yet — the guest RSVP path is the one worth adding first.
       e2e: none
       # Vitest isn't configured for coverage output, so there'd be nothing to upload.
