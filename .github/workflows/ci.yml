@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   ci:
-    uses: patrickisgreat/actions-toolkit/.github/workflows/node-ci.yml@main
+    uses: patrickisgreat/actions-toolkit/.github/workflows/node-ci.yml@fix/toolkit-ref-for-consumers
     with:
       node-version: '22'
       package-manager: npm
@@ -34,9 +34,14 @@ jobs:
 
   # A schema change is the least reversible thing this app does, so the PR shows
   # exactly what a merge would apply, as a comment, before anyone approves it.
+  #
+  # Gated on a repo variable rather than running unconditionally: the toolkit
+  # declares its secrets `required: true`, so without them the job fails at the
+  # workflow-call boundary before any step runs — a red X that says nothing.
+  # Set DEPLOYMENTS_CONFIGURED=true once the secrets exist.
   db-plan:
-    if: github.event_name == 'pull_request'
-    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-supabase.yml@main
+    if: github.event_name == 'pull_request' && vars.DEPLOYMENTS_CONFIGURED == 'true'
+    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-supabase.yml@fix/toolkit-ref-for-consumers
     with:
       dry-run: true
     permissions:
@@ -45,9 +50,9 @@ jobs:
     secrets: inherit
 
   preview:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && vars.DEPLOYMENTS_CONFIGURED == 'true'
     needs: [ci]
-    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-vercel.yml@main
+    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-vercel.yml@fix/toolkit-ref-for-consumers
     with:
       environment: preview
       build-env: |

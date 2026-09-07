@@ -20,6 +20,9 @@ permissions:
 
 jobs:
   supabase:
+    # See ci.yml — without the secrets this fails before running a step, so it
+    # stays off until DEPLOYMENTS_CONFIGURED is set.
+    if: vars.DEPLOYMENTS_CONFIGURED == 'true'
     uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-supabase.yml@main
     with:
       migrate: true
@@ -30,6 +33,7 @@ jobs:
     secrets: inherit
 
   vercel:
+    if: vars.DEPLOYMENTS_CONFIGURED == 'true'
     needs: [supabase]
     uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-vercel.yml@main
     with:

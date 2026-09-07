@@ -25,7 +25,8 @@ permissions:
 
 jobs:
   plan:
-    if: github.event_name == 'pull_request'
+    # Needs TF_STATE_BUCKET and the AWS OIDC role; see infra/README.md.
+    if: github.event_name == 'pull_request' && vars.TF_STATE_BUCKET != ''
     uses: patrickisgreat/actions-toolkit/.github/workflows/terraform-plan-apply.yml@main
     with:
       mode: plan
@@ -47,7 +48,7 @@ jobs:
     secrets: inherit
 
   apply:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.TF_STATE_BUCKET != ''
     uses: patrickisgreat/actions-toolkit/.github/workflows/terraform-plan-apply.yml@main
     with:
       mode: both
