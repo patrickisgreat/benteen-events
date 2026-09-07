@@ -1,0 +1,70 @@
+# Terraform: plan on PR, apply on merge — via actions-toolkit.
+#
+# This runs far less often than CI. Provisioning is a handful of resources you
+# create once; the schema and project config that change every week live in the
+# Deploy workflow instead, not here.
+#
+# `paths:` keeps it off every unrelated PR — a doc change shouldn't plan infra.
+
+name: Infra
+
+on:
+  push:
+    branches: [main]
+    paths: ['infra/**', '.github/workflows/infra.yml']
+  pull_request:
+    paths: ['infra/**', '.github/workflows/infra.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: infra-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request'
+    uses: patrickisgreat/actions-toolkit/.github/workflows/terraform-plan-apply.yml@main
+    with:
+      mode: plan
+      directories: '["infra"]'
+      backend-config: |
+        bucket=${{ vars.TF_STATE_BUCKET }}
+        key=benteen-events/terraform.tfstate
+        region=${{ vars.AWS_REGION }}
+        encrypt=true
+      aws-region: ${{ vars.AWS_REGION }}
+      aws-role-to-assume: ${{ vars.AWS_TF_ROLE_ARN }}
+      # The Supabase project holds every guest email in the app. A plan that
+      # would destroy it should stop the pipeline, not scroll past in a comment.
+      fail-on-destroy: true
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    secrets: inherit
+
+  apply:
+    if: github.ref == 'refs/heads/main'
+    uses: patrickisgreat/actions-toolkit/.github/workflows/terraform-plan-apply.yml@main
+    with:
+      mode: both
+      directories: '["infra"]'
+      backend-config: |
+        bucket=${{ vars.TF_STATE_BUCKET }}
+        key=benteen-events/terraform.tfstate
+        region=${{ vars.AWS_REGION }}
+        encrypt=true
+      aws-region: ${{ vars.AWS_REGION }}
+      aws-role-to-assume: ${{ vars.AWS_TF_ROLE_ARN }}
+      fail-on-destroy: true
+      # Required reviewers on this GitHub Environment turn an apply into a gated
+      # one without touching this file.
+      environment-name: infra
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    secrets: inherit
