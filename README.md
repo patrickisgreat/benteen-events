@@ -41,11 +41,46 @@ Apply the schema to a fresh Supabase project:
 
 ```bash
 supabase db push          # or paste supabase/migrations/*.sql into the SQL editor
+supabase config push      # Google auth, site URL, redirect allow-list
 ```
 
-Then enable Google as an auth provider in the Supabase dashboard, and point a
-Resend webhook at `https://<your-host>/api/webhooks/resend` for the delivery and
-open tracking.
+Then point a Resend webhook at `https://<your-host>/api/webhooks/resend` for the
+delivery and open tracking. That one is DNS-and-dashboard work; everything else
+is in this repo.
+
+## Deployment
+
+Infrastructure, schema, and config are all code. The pipelines come from
+[actions-toolkit](https://github.com/patrickisgreat/actions-toolkit) — this repo
+supplies the knobs, not the steps.
+
+| What | Where | When |
+|---|---|---|
+| Supabase + Vercel projects, env vars, domain | `infra/*.tf` | on merge to `infra/**` |
+| Schema, RLS, triggers | `supabase/migrations/*.sql` | every merge |
+| Auth provider, site URL, redirect allow-list | `supabase/config.toml` | every merge |
+| Build settings, cron | `vercel.json` | every deploy |
+
+On a pull request you get lint/typecheck/tests/build, **the pending migrations
+posted as a comment** so a schema change is reviewed like code, and a preview
+deploy. On merge, migrations and config go first, then the app — new code against
+an unmigrated schema fails at runtime, whereas an additive migration ahead of the
+deploy is safe.
+
+Provisioning from scratch is a two-pass apply, for a reason worth reading before
+you start: [`infra/README.md`](infra/README.md).
+
+### Secrets
+
+| Secret | Used by |
+|---|---|
+| `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD` | migrations, config push |
+| `SUPABASE_URL`, `SUPABASE_KEY` | the build (public by design — RLS protects the data) |
+| `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID`, `SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET` | `config push` |
+| `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` | deploys |
+| `TF_SECRET_VARS` | Terraform |
+
+Repo **variables** (not secrets): `TF_STATE_BUCKET`, `AWS_REGION`, `AWS_TF_ROLE_ARN`.
 
 ## Commands
 
