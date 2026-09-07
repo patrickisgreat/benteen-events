@@ -4,6 +4,7 @@
 supabase_organization_id = "your-org-slug"
 supabase_region          = "us-east-1"
 supabase_db_password     = "generate-a-long-random-one"
+supabase_instance_size   = "nano" # nano is the free tier
 
 vercel_team_id    = null # null for a personal account
 github_repo       = "patrickisgreat/benteen-events"
