@@ -112,13 +112,26 @@ async function onSubmit(event: FormSubmitEvent<{ subject?: string, message: stri
 
 <template>
   <div class="space-y-3">
-    <div v-if="templates.length" class="space-y-1.5">
+    <div
+      v-if="templates.length"
+      class="space-y-1.5"
+    >
       <p class="text-xs font-medium text-muted">
         Templates
       </p>
       <div class="flex flex-wrap gap-2">
-        <UButtonGroup v-for="tpl in templates" :key="tpl.id" size="xs">
-          <UButton :label="tpl.name" icon="i-lucide-file-text" color="neutral" variant="outline" @click="applyTemplate(tpl)" />
+        <UButtonGroup
+          v-for="tpl in templates"
+          :key="tpl.id"
+          size="xs"
+        >
+          <UButton
+            :label="tpl.name"
+            icon="i-lucide-file-text"
+            color="neutral"
+            variant="outline"
+            @click="applyTemplate(tpl)"
+          />
           <UButton
             icon="i-lucide-x"
             color="neutral"
@@ -130,8 +143,16 @@ async function onSubmit(event: FormSubmitEvent<{ subject?: string, message: stri
       </div>
     </div>
 
-    <UForm :schema="schema" :state="state" class="space-y-3" @submit="onSubmit">
-      <UFormField label="Audience" name="scope">
+    <UForm
+      :schema="schema"
+      :state="state"
+      class="space-y-3"
+      @submit="onSubmit"
+    >
+      <UFormField
+        label="Audience"
+        name="scope"
+      >
         <USelectMenu
           v-model="state.scope"
           :items="scopeOptions"
@@ -140,17 +161,46 @@ async function onSubmit(event: FormSubmitEvent<{ subject?: string, message: stri
           class="w-full sm:max-w-xs"
         />
       </UFormField>
-      <UFormField label="Subject" name="subject" hint="Optional">
-        <UInput v-model="state.subject" placeholder="A quick update about Saturday" class="w-full" />
+      <UFormField
+        label="Subject"
+        name="subject"
+        hint="Optional"
+      >
+        <UInput
+          v-model="state.subject"
+          placeholder="A quick update about Saturday"
+          class="w-full"
+        />
       </UFormField>
-      <UFormField label="Message" name="message" required>
+      <UFormField
+        label="Message"
+        name="message"
+        required
+      >
         <RichTextEditor v-model="state.message" />
       </UFormField>
 
-      <div v-if="savingTemplate" class="flex gap-2">
-        <UInput v-model="templateName" placeholder="Template name" class="flex-1" @keydown.enter.prevent="onSaveTemplate" />
-        <UButton label="Save" :disabled="!templateName.trim()" @click="onSaveTemplate" />
-        <UButton label="Cancel" color="neutral" variant="ghost" @click="closeTemplateForm" />
+      <div
+        v-if="savingTemplate"
+        class="flex gap-2"
+      >
+        <UInput
+          v-model="templateName"
+          placeholder="Template name"
+          class="flex-1"
+          @keydown.enter.prevent="onSaveTemplate"
+        />
+        <UButton
+          label="Save"
+          :disabled="!templateName.trim()"
+          @click="onSaveTemplate"
+        />
+        <UButton
+          label="Cancel"
+          color="neutral"
+          variant="ghost"
+          @click="closeTemplateForm"
+        />
       </div>
 
       <div class="flex flex-wrap justify-between gap-2">
@@ -163,7 +213,14 @@ async function onSubmit(event: FormSubmitEvent<{ subject?: string, message: stri
           :disabled="!messageHasText"
           @click="openTemplateForm"
         />
-        <UButton type="submit" label="Send blast" icon="i-lucide-megaphone" :loading="sending" :disabled="!eventId" class="ml-auto" />
+        <UButton
+          type="submit"
+          label="Send blast"
+          icon="i-lucide-megaphone"
+          :loading="sending"
+          :disabled="!eventId"
+          class="ml-auto"
+        />
       </div>
     </UForm>
   </div>

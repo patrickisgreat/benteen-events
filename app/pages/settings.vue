@@ -18,7 +18,10 @@ const { account } = useAuth()
         </h2>
       </template>
       <div class="flex items-center gap-3">
-        <UAvatar :src="account?.avatarUrl ?? undefined" :alt="account?.displayName ?? 'You'" />
+        <UAvatar
+          :src="account?.avatarUrl ?? undefined"
+          :alt="account?.displayName ?? 'You'"
+        />
         <div class="min-w-0">
           <p class="font-medium truncate">
             {{ account?.displayName }}

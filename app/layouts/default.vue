@@ -23,7 +23,10 @@ async function handleSignOut(): Promise<void> {
 
 <template>
   <div>
-    <UHeader to="/events" :ui="{ center: 'gap-1' }">
+    <UHeader
+      to="/events"
+      :ui="{ center: 'gap-1' }"
+    >
       <template #title>
         <span class="font-bold">{{ appName }}</span>
       </template>
@@ -33,17 +36,39 @@ async function handleSignOut(): Promise<void> {
       <template #right>
         <UColorModeButton />
 
-        <UDropdownMenu v-if="account" :items="userMenu" :content="{ align: 'end' }">
-          <UButton variant="ghost" color="neutral" trailing-icon="i-lucide-chevron-down" class="gap-2">
-            <UAvatar :src="account.avatarUrl ?? undefined" :alt="account.displayName ?? 'User'" size="2xs" />
+        <UDropdownMenu
+          v-if="account"
+          :items="userMenu"
+          :content="{ align: 'end' }"
+        >
+          <UButton
+            variant="ghost"
+            color="neutral"
+            trailing-icon="i-lucide-chevron-down"
+            class="gap-2"
+          >
+            <UAvatar
+              :src="account.avatarUrl ?? undefined"
+              :alt="account.displayName ?? 'User'"
+              size="2xs"
+            />
             <span class="hidden sm:inline">{{ account.displayName }}</span>
           </UButton>
         </UDropdownMenu>
-        <UButton v-else to="/login" label="Sign in" size="sm" />
+        <UButton
+          v-else
+          to="/login"
+          label="Sign in"
+          size="sm"
+        />
       </template>
 
       <template #body>
-        <UNavigationMenu :items="links" orientation="vertical" class="-mx-2.5" />
+        <UNavigationMenu
+          :items="links"
+          orientation="vertical"
+          class="-mx-2.5"
+        />
       </template>
     </UHeader>
 

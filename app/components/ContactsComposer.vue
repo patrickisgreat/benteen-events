@@ -104,7 +104,10 @@ async function onSubmit(): Promise<void> {
           />
         </UFormField>
 
-        <div v-if="toAdd.length" class="flex flex-wrap gap-1.5">
+        <div
+          v-if="toAdd.length"
+          class="flex flex-wrap gap-1.5"
+        >
           <UBadge
             v-for="entry in toAdd"
             :key="entry.email"
@@ -143,7 +146,11 @@ async function onSubmit(): Promise<void> {
           :description="`${parsed.invalid.join(', ')} — fix or remove ${parsed.invalid.length === 1 ? 'it' : 'them'} above.`"
         />
 
-        <UFormField v-if="!silent" label="Note for the welcome email" hint="optional">
+        <UFormField
+          v-if="!silent"
+          label="Note for the welcome email"
+          hint="optional"
+        >
           <UTextarea
             v-model="note"
             :rows="2"
@@ -152,7 +159,10 @@ async function onSubmit(): Promise<void> {
           />
         </UFormField>
 
-        <USwitch v-model="silent" label="Just save them — don't send a welcome email" />
+        <USwitch
+          v-model="silent"
+          label="Just save them — don't send a welcome email"
+        />
 
         <div class="flex justify-end">
           <UButton
@@ -178,16 +188,29 @@ async function onSubmit(): Promise<void> {
           </span>
         </h3>
       </template>
-      <p v-if="!contacts.length" class="text-sm text-muted">
+      <p
+        v-if="!contacts.length"
+        class="text-sm text-muted"
+      >
         Nobody saved yet. Add your people above.
       </p>
-      <ul v-else class="divide-y divide-default">
-        <li v-for="person in contacts" :key="person.id" class="py-2 flex items-center justify-between gap-3">
+      <ul
+        v-else
+        class="divide-y divide-default"
+      >
+        <li
+          v-for="person in contacts"
+          :key="person.id"
+          class="py-2 flex items-center justify-between gap-3"
+        >
           <div class="min-w-0">
             <p class="text-sm font-medium truncate">
               {{ person.display_name || person.email }}
             </p>
-            <p v-if="person.display_name" class="text-xs text-muted truncate">
+            <p
+              v-if="person.display_name"
+              class="text-xs text-muted truncate"
+            >
               {{ person.email }}
             </p>
           </div>

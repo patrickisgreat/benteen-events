@@ -89,39 +89,111 @@ async function onSubmit(event: FormSubmitEvent<Schema>): Promise<void> {
 </script>
 
 <template>
-  <UModal v-model:open="open" :title="event ? 'Edit event' : 'New event'">
+  <UModal
+    v-model:open="open"
+    :title="event ? 'Edit event' : 'New event'"
+  >
     <template #body>
-      <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-        <UFormField label="What is it?" name="title" required>
-          <UInput v-model="state.title" placeholder="Backyard cookout" class="w-full" />
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <UFormField
+          label="What is it?"
+          name="title"
+          required
+        >
+          <UInput
+            v-model="state.title"
+            placeholder="Backyard cookout"
+            class="w-full"
+          />
         </UFormField>
 
         <div class="grid sm:grid-cols-2 gap-4">
-          <UFormField label="Date" name="event_date" required>
-            <UInput v-model="state.event_date" type="date" class="w-full" />
+          <UFormField
+            label="Date"
+            name="event_date"
+            required
+          >
+            <UInput
+              v-model="state.event_date"
+              type="date"
+              class="w-full"
+            />
           </UFormField>
-          <UFormField label="Start time" name="start_time" hint="optional">
-            <UInput v-model="state.start_time" type="time" class="w-full" />
+          <UFormField
+            label="Start time"
+            name="start_time"
+            hint="optional"
+          >
+            <UInput
+              v-model="state.start_time"
+              type="time"
+              class="w-full"
+            />
           </UFormField>
         </div>
 
-        <UFormField label="Where" name="location" hint="optional">
-          <UInput v-model="state.location" placeholder="123 Benteen Ave" class="w-full" />
+        <UFormField
+          label="Where"
+          name="location"
+          hint="optional"
+        >
+          <UInput
+            v-model="state.location"
+            placeholder="123 Benteen Ave"
+            class="w-full"
+          />
         </UFormField>
-        <UFormField label="Map link" name="location_url" hint="optional">
-          <UInput v-model="state.location_url" type="url" placeholder="https://maps.app.goo.gl/…" class="w-full" />
+        <UFormField
+          label="Map link"
+          name="location_url"
+          hint="optional"
+        >
+          <UInput
+            v-model="state.location_url"
+            type="url"
+            placeholder="https://maps.app.goo.gl/…"
+            class="w-full"
+          />
         </UFormField>
-        <UFormField label="Cover image" name="cover_image_url" hint="optional" description="Shown as the banner at the top of the e-vite.">
-          <UInput v-model="state.cover_image_url" type="url" placeholder="https://…/photo.jpg" class="w-full" />
+        <UFormField
+          label="Cover image"
+          name="cover_image_url"
+          hint="optional"
+          description="Shown as the banner at the top of the e-vite."
+        >
+          <UInput
+            v-model="state.cover_image_url"
+            type="url"
+            placeholder="https://…/photo.jpg"
+            class="w-full"
+          />
         </UFormField>
 
-        <UFormField label="Details" name="description" hint="optional">
+        <UFormField
+          label="Details"
+          name="description"
+          hint="optional"
+        >
           <RichTextEditor v-model="state.description" />
         </UFormField>
 
         <div class="flex justify-end gap-2">
-          <UButton label="Cancel" color="neutral" variant="ghost" @click="closeModal" />
-          <UButton type="submit" :label="event ? 'Save changes' : 'Create event'" :loading="saving" />
+          <UButton
+            label="Cancel"
+            color="neutral"
+            variant="ghost"
+            @click="closeModal"
+          />
+          <UButton
+            type="submit"
+            :label="event ? 'Save changes' : 'Create event'"
+            :loading="saving"
+          />
         </div>
       </UForm>
     </template>

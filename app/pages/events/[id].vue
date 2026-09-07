@@ -56,10 +56,23 @@ function openEdit(): void {
 
 <template>
   <div class="space-y-6">
-    <UButton to="/events" label="All events" icon="i-lucide-arrow-left" color="neutral" variant="link" class="-ml-2" />
+    <UButton
+      to="/events"
+      label="All events"
+      icon="i-lucide-arrow-left"
+      color="neutral"
+      variant="link"
+      class="-ml-2"
+    />
 
-    <div v-if="pending" class="flex justify-center py-10">
-      <UIcon name="i-lucide-loader-circle" class="size-6 animate-spin text-primary" />
+    <div
+      v-if="pending"
+      class="flex justify-center py-10"
+    >
+      <UIcon
+        name="i-lucide-loader-circle"
+        class="size-6 animate-spin text-primary"
+      />
     </div>
 
     <UAlert
@@ -80,26 +93,69 @@ function openEdit(): void {
           <p class="text-muted">
             {{ when }}
           </p>
-          <p v-if="event.location" class="text-muted">
-            <a v-if="event.location_url" :href="event.location_url" target="_blank" rel="noopener noreferrer" class="hover:text-primary">
+          <p
+            v-if="event.location"
+            class="text-muted"
+          >
+            <a
+              v-if="event.location_url"
+              :href="event.location_url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-primary"
+            >
               {{ event.location }}
             </a>
             <span v-else>{{ event.location }}</span>
           </p>
         </div>
-        <UButton label="Edit" icon="i-lucide-pencil" color="neutral" variant="outline" size="sm" @click="openEdit" />
+        <UButton
+          label="Edit"
+          icon="i-lucide-pencil"
+          color="neutral"
+          variant="outline"
+          size="sm"
+          @click="openEdit"
+        />
       </div>
 
-      <!-- Host-authored rich text: sanitized, never rendered raw. -->
-      <div v-if="event.description" class="prose prose-sm dark:prose-invert max-w-none" v-html="sanitizeHtml(event.description)" />
+      <!-- Host-authored rich text. sanitizeHtml is DOMPurify — this is the one
+           sanctioned v-html in the app, and the disable documents that rather than
+           leaving a standing warning everyone learns to scroll past. -->
+      <!-- eslint-disable vue/no-v-html -->
+      <div
+        v-if="event.description"
+        class="prose prose-sm dark:prose-invert max-w-none"
+        v-html="sanitizeHtml(event.description)"
+      />
+      <!-- eslint-enable vue/no-v-html -->
 
-      <UTabs v-model="tab" :items="tabs" variant="link" :content="false" />
+      <UTabs
+        v-model="tab"
+        :items="tabs"
+        variant="link"
+        :content="false"
+      />
 
-      <EventInviteManager v-if="tab === 'guests'" :event-id="event.id" :event="event" />
-      <EventAnnounceComposer v-else-if="tab === 'announce'" :event-id="event.id" />
-      <CommsLog v-else :entries="entries" />
+      <EventInviteManager
+        v-if="tab === 'guests'"
+        :event-id="event.id"
+        :event="event"
+      />
+      <EventAnnounceComposer
+        v-else-if="tab === 'announce'"
+        :event-id="event.id"
+      />
+      <CommsLog
+        v-else
+        :entries="entries"
+      />
 
-      <EventFormModal v-model:open="formOpen" :event="event" @saved="load" />
+      <EventFormModal
+        v-model:open="formOpen"
+        :event="event"
+        @saved="load"
+      />
     </template>
   </div>
 </template>

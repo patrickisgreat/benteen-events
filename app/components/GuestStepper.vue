@@ -26,7 +26,10 @@ function step(delta: number): void {
       aria-label="One fewer guest"
       @click="step(-1)"
     />
-    <span class="min-w-16 text-center text-sm tabular-nums" aria-live="polite">
+    <span
+      class="min-w-16 text-center text-sm tabular-nums"
+      aria-live="polite"
+    >
       {{ model === 0 ? 'just me' : `+${model} guest${model === 1 ? '' : 's'}` }}
     </span>
     <UButton
