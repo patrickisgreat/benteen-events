@@ -1,0 +1,26 @@
+# Copy to terraform.tfvars for a local run. Gitignored — never commit the real one.
+# In CI these come from the TF_SECRET_VARS secret instead (see infra.yml).
+
+supabase_organization_id = "your-org-slug"
+supabase_region          = "us-east-1"
+supabase_db_password     = "generate-a-long-random-one"
+supabase_instance_size   = "nano" # nano is the free tier
+
+vercel_team_id    = null # null for a personal account
+github_repo       = "patrickisgreat/benteen-events"
+production_domain = "" # e.g. "events.example.com"
+
+app_name    = "Benteen Events"
+app_tagline = "Good people, good times."
+
+# Left empty on the first apply — the project does not exist yet, so these
+# values do not exist yet either. Fill them in and apply a second time; see
+# infra/README.md for why this is two passes.
+supabase_url              = ""
+supabase_anon_key         = ""
+supabase_service_role_key = ""
+
+resend_api_key        = ""
+resend_from           = ""
+resend_webhook_secret = ""
+cron_secret           = ""

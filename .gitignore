@@ -11,3 +11,11 @@ dist
 .DS_Store
 .vercel
 coverage
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log

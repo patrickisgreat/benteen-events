@@ -261,7 +261,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
   <div class="space-y-5">
     <!-- Tracker -->
     <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center">
-      <UCard variant="subtle" :ui="{ body: 'p-3' }">
+      <UCard
+        variant="subtle"
+        :ui="{ body: 'p-3' }"
+      >
         <p class="text-xl font-bold">
           {{ stats.invited }}
         </p>
@@ -269,7 +272,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
           invited
         </p>
       </UCard>
-      <UCard variant="subtle" :ui="{ body: 'p-3' }">
+      <UCard
+        variant="subtle"
+        :ui="{ body: 'p-3' }"
+      >
         <p class="text-xl font-bold">
           {{ stats.opened }}
         </p>
@@ -277,7 +283,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
           opened
         </p>
       </UCard>
-      <UCard variant="subtle" :ui="{ body: 'p-3' }">
+      <UCard
+        variant="subtle"
+        :ui="{ body: 'p-3' }"
+      >
         <p class="text-xl font-bold text-success">
           {{ roster.going.length }}
         </p>
@@ -285,7 +294,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
           going
         </p>
       </UCard>
-      <UCard variant="subtle" :ui="{ body: 'p-3' }">
+      <UCard
+        variant="subtle"
+        :ui="{ body: 'p-3' }"
+      >
         <p class="text-xl font-bold text-warning">
           {{ roster.maybe.length }}
         </p>
@@ -293,7 +305,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
           maybe
         </p>
       </UCard>
-      <UCard variant="subtle" :ui="{ body: 'p-3' }">
+      <UCard
+        variant="subtle"
+        :ui="{ body: 'p-3' }"
+      >
         <p class="text-xl font-bold">
           {{ roster.no.length }}
         </p>
@@ -301,7 +316,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
           can't
         </p>
       </UCard>
-      <UCard variant="subtle" :ui="{ body: 'p-3' }">
+      <UCard
+        variant="subtle"
+        :ui="{ body: 'p-3' }"
+      >
         <p class="text-xl font-bold text-muted">
           {{ roster.noReply.length }}
         </p>
@@ -312,15 +330,25 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
     </div>
 
     <!-- Who's actually coming, by name -->
-    <UCard variant="subtle" :ui="{ body: 'sm:p-4 p-3' }">
+    <UCard
+      variant="subtle"
+      :ui="{ body: 'sm:p-4 p-3' }"
+    >
       <h3 class="text-sm font-semibold text-muted mb-3 flex items-center gap-1.5">
         <UIcon name="i-lucide-users" /> Who's RSVP'd · {{ roster.total }} total
       </h3>
-      <RsvpRoster :roster="roster" show-no-reply />
+      <RsvpRoster
+        :roster="roster"
+        show-no-reply
+      />
     </UCard>
 
     <!-- E-vite designer: customize the invitation + live preview -->
-    <UCollapsible v-if="event" :unmount-on-hide="false" class="rounded-lg ring ring-default">
+    <UCollapsible
+      v-if="event"
+      :unmount-on-hide="false"
+      class="rounded-lg ring ring-default"
+    >
       <UButton
         label="Design the e-vite"
         icon="i-lucide-palette"
@@ -371,11 +399,20 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
             </div>
 
             <div class="flex flex-wrap gap-4">
-              <USwitch v-model="options.showCover" label="Show cover image" />
-              <USwitch v-model="options.showDetails" label="Show date & details" />
+              <USwitch
+                v-model="options.showCover"
+                label="Show cover image"
+              />
+              <USwitch
+                v-model="options.showDetails"
+                label="Show date & details"
+              />
             </div>
 
-            <UFormField label="Personal message" hint="optional">
+            <UFormField
+              label="Personal message"
+              hint="optional"
+            >
               <UTextarea
                 v-model="options.message"
                 :rows="3"
@@ -384,7 +421,13 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
               />
             </UFormField>
 
-            <UButton label="Save design" icon="i-lucide-save" size="sm" :loading="savingOptions" @click="onSaveOptions" />
+            <UButton
+              label="Save design"
+              icon="i-lucide-save"
+              size="sm"
+              :loading="savingOptions"
+              @click="onSaveOptions"
+            />
           </div>
 
           <!-- Live preview -->
@@ -405,16 +448,46 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
 
     <!-- Add + actions -->
     <div class="flex flex-wrap items-end gap-2">
-      <UFormField label="Add guest email" class="flex-1 min-w-48">
-        <UInput v-model="newEmail" type="email" placeholder="friend@example.com" class="w-full" @keydown.enter="onAdd" />
+      <UFormField
+        label="Add guest email"
+        class="flex-1 min-w-48"
+      >
+        <UInput
+          v-model="newEmail"
+          type="email"
+          placeholder="friend@example.com"
+          class="w-full"
+          @keydown.enter="onAdd"
+        />
       </UFormField>
-      <UFormField label="Name" hint="optional" class="min-w-32">
-        <UInput v-model="newName" placeholder="Jordan" class="w-full" @keydown.enter="onAdd" />
+      <UFormField
+        label="Name"
+        hint="optional"
+        class="min-w-32"
+      >
+        <UInput
+          v-model="newName"
+          placeholder="Jordan"
+          class="w-full"
+          @keydown.enter="onAdd"
+        />
       </UFormField>
-      <UButton label="Add" icon="i-lucide-plus" @click="onAdd" />
+      <UButton
+        label="Add"
+        icon="i-lucide-plus"
+        @click="onAdd"
+      />
     </div>
     <div class="flex flex-wrap items-center gap-2">
-      <UButton label="Pull in my people" icon="i-lucide-history" color="neutral" variant="outline" size="sm" :loading="seeding" @click="onSeed" />
+      <UButton
+        label="Pull in my people"
+        icon="i-lucide-history"
+        color="neutral"
+        variant="outline"
+        size="sm"
+        :loading="seeding"
+        @click="onSeed"
+      />
       <UButton
         :label="unsent ? `Send ${unsent} invite${unsent === 1 ? '' : 's'}` : 'All invites sent'"
         icon="i-lucide-send"
@@ -444,7 +517,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
     />
 
     <!-- Bulk select toolbar -->
-    <div v-if="invites.length" class="flex items-center gap-3 px-1">
+    <div
+      v-if="invites.length"
+      class="flex items-center gap-3 px-1"
+    >
       <UCheckbox
         :model-value="allSelected"
         aria-label="Select all guests"
@@ -467,8 +543,15 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
     </div>
 
     <!-- Guest list -->
-    <ul v-if="invites.length" class="divide-y divide-default rounded-lg ring ring-default overflow-hidden">
-      <li v-for="invite in invites" :key="invite.id" class="flex items-center gap-3 p-3">
+    <ul
+      v-if="invites.length"
+      class="divide-y divide-default rounded-lg ring ring-default overflow-hidden"
+    >
+      <li
+        v-for="invite in invites"
+        :key="invite.id"
+        class="flex items-center gap-3 p-3"
+      >
         <UCheckbox
           :model-value="selected.has(invite.id)"
           :aria-label="`Select ${invite.display_name || invite.email}`"
@@ -479,11 +562,20 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
           <p class="font-medium truncate">
             {{ invite.display_name || invite.email }}
           </p>
-          <p v-if="invite.display_name" class="text-xs text-muted truncate">
+          <p
+            v-if="invite.display_name"
+            class="text-xs text-muted truncate"
+          >
             {{ invite.email }}
           </p>
         </div>
-        <UBadge :label="statusBadge(invite).label" :color="statusBadge(invite).color" variant="subtle" size="sm" class="shrink-0" />
+        <UBadge
+          :label="statusBadge(invite).label"
+          :color="statusBadge(invite).color"
+          variant="subtle"
+          size="sm"
+          class="shrink-0"
+        />
         <UButton
           icon="i-lucide-link"
           color="neutral"
@@ -504,7 +596,10 @@ function statusBadge(invite: EventInvite): { label: string, color: 'success' | '
         />
       </li>
     </ul>
-    <p v-else class="text-sm text-muted">
+    <p
+      v-else
+      class="text-sm text-muted"
+    >
       No guests yet — add emails above, or pull in your saved contacts.
     </p>
   </div>

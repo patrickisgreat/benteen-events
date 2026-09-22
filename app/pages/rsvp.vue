@@ -88,20 +88,45 @@ onMounted(() => {
             You can change your answer anytime:
           </p>
           <div class="flex flex-wrap justify-center gap-2">
-            <UButton label="Going" color="primary" :variant="current === 'going' ? 'solid' : 'outline'" @click="rsvp('going')" />
-            <UButton label="Maybe" color="warning" :variant="current === 'maybe' ? 'solid' : 'outline'" @click="rsvp('maybe')" />
-            <UButton label="Can't make it" color="neutral" :variant="current === 'no' ? 'solid' : 'outline'" @click="rsvp('no')" />
+            <UButton
+              label="Going"
+              color="primary"
+              :variant="current === 'going' ? 'solid' : 'outline'"
+              @click="rsvp('going')"
+            />
+            <UButton
+              label="Maybe"
+              color="warning"
+              :variant="current === 'maybe' ? 'solid' : 'outline'"
+              @click="rsvp('maybe')"
+            />
+            <UButton
+              label="Can't make it"
+              color="neutral"
+              :variant="current === 'no' ? 'solid' : 'outline'"
+              @click="rsvp('no')"
+            />
           </div>
 
           <!-- Bringing guests? Only while going. -->
-          <div v-if="current === 'going'" class="flex flex-col items-center gap-2 pt-1">
+          <div
+            v-if="current === 'going'"
+            class="flex flex-col items-center gap-2 pt-1"
+          >
             <span class="text-sm text-muted">Bringing guests?</span>
-            <GuestStepper :model-value="guests" :disabled="savingGuests" @update:model-value="setGuests" />
+            <GuestStepper
+              :model-value="guests"
+              :disabled="savingGuests"
+              @update:model-value="setGuests"
+            />
           </div>
         </template>
 
         <template v-else-if="phase === 'error'">
-          <UIcon name="i-lucide-circle-alert" class="size-8 text-error" />
+          <UIcon
+            name="i-lucide-circle-alert"
+            class="size-8 text-error"
+          />
           <h1 class="text-xl font-bold">
             We couldn't record that
           </h1>
@@ -111,7 +136,10 @@ onMounted(() => {
         </template>
 
         <template v-else>
-          <UIcon name="i-lucide-loader-circle" class="size-8 animate-spin text-primary" />
+          <UIcon
+            name="i-lucide-loader-circle"
+            class="size-8 animate-spin text-primary"
+          />
           <p class="text-muted">
             Recording your RSVP…
           </p>

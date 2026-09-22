@@ -41,8 +41,18 @@ async function onSave(): Promise<void> {
     description="Days before an event to nudge people who haven't RSVP'd. Leave blank to turn automatic reminders off."
   >
     <div class="flex flex-wrap items-center gap-2">
-      <UInput v-model="draft" placeholder="7, 3, 1" class="w-40" @keydown.enter="onSave" />
-      <UButton label="Save" size="sm" :loading="saving" @click="onSave" />
+      <UInput
+        v-model="draft"
+        placeholder="7, 3, 1"
+        class="w-40"
+        @keydown.enter="onSave"
+      />
+      <UButton
+        label="Save"
+        size="sm"
+        :loading="saving"
+        @click="onSave"
+      />
       <p class="text-sm text-muted">
         {{ parsed.length ? `Nudges at ${formatReminderDays(parsed)} days out.` : 'No automatic reminders.' }}
       </p>

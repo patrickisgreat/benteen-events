@@ -1,0 +1,45 @@
+# Production deploy on merge to main.
+#
+# Order matters: the schema and project config go first, then the app. New code
+# against an unmigrated schema fails at runtime, whereas an additive migration
+# ahead of the deploy is safe.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  # Never let two production deploys interleave.
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  supabase:
+    # See ci.yml — without the secrets this fails before running a step, so it
+    # stays off until DEPLOYMENTS_CONFIGURED is set.
+    if: vars.DEPLOYMENTS_CONFIGURED == 'true'
+    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-supabase.yml@main
+    with:
+      migrate: true
+      # Pushes supabase/config.toml — the auth redirect URLs and site URL that
+      # would otherwise be dashboard clicks nobody remembers making.
+      config: true
+      environment-name: production
+    secrets: inherit
+
+  vercel:
+    if: vars.DEPLOYMENTS_CONFIGURED == 'true'
+    needs: [supabase]
+    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-vercel.yml@main
+    with:
+      environment: production
+      environment-name: production
+      build-env: |
+        SUPABASE_URL=SUPABASE_URL
+        SUPABASE_KEY=SUPABASE_KEY
+    secrets: inherit

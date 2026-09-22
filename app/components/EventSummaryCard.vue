@@ -14,16 +14,25 @@ const when = computed(() => {
 </script>
 
 <template>
-  <UCard variant="subtle" class="h-full">
+  <UCard
+    variant="subtle"
+    class="h-full"
+  >
     <div class="flex items-start gap-3">
       <div class="min-w-0 flex-1">
-        <NuxtLink :to="`/events/${event.id}`" class="font-semibold hover:text-primary truncate block">
+        <NuxtLink
+          :to="`/events/${event.id}`"
+          class="font-semibold hover:text-primary truncate block"
+        >
           {{ event.title }}
         </NuxtLink>
         <p class="text-sm text-muted">
           {{ when }}
         </p>
-        <p v-if="event.location" class="text-sm text-muted truncate">
+        <p
+          v-if="event.location"
+          class="text-sm text-muted truncate"
+        >
           {{ event.location }}
         </p>
         <p class="text-sm mt-2">
@@ -32,8 +41,22 @@ const when = computed(() => {
         </p>
       </div>
       <div class="flex flex-col gap-1 shrink-0">
-        <UButton icon="i-lucide-pencil" color="neutral" variant="ghost" size="xs" aria-label="Edit event" @click="$emit('edit')" />
-        <UButton icon="i-lucide-trash-2" color="neutral" variant="ghost" size="xs" aria-label="Delete event" @click="$emit('delete')" />
+        <UButton
+          icon="i-lucide-pencil"
+          color="neutral"
+          variant="ghost"
+          size="xs"
+          aria-label="Edit event"
+          @click="$emit('edit')"
+        />
+        <UButton
+          icon="i-lucide-trash-2"
+          color="neutral"
+          variant="ghost"
+          size="xs"
+          aria-label="Delete event"
+          @click="$emit('delete')"
+        />
       </div>
     </div>
   </UCard>

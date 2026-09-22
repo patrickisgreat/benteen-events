@@ -11,7 +11,10 @@ watchEffect(() => {
 
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center gap-3">
-    <UIcon name="i-lucide-loader-circle" class="size-8 animate-spin text-primary" />
+    <UIcon
+      name="i-lucide-loader-circle"
+      class="size-8 animate-spin text-primary"
+    />
     <p class="text-muted">
       Signing you in…
     </p>

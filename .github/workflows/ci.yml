@@ -1,0 +1,71 @@
+# CI — lint, typecheck, unit tests, and a real production build on every PR.
+#
+# The pipeline itself lives in actions-toolkit; this file only says which knobs
+# this repo needs. Change the pipeline there and this repo picks it up.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: patrickisgreat/actions-toolkit/.github/workflows/node-ci.yml@fix/toolkit-ref-for-consumers
+    with:
+      node-version: '22'
+      package-manager: npm
+      # Every command needs the `run ` prefix. The toolkit invokes them as
+      # `$MANAGER $COMMAND`, which suits pnpm (`pnpm lint` runs the script) but
+      # not npm, where only a few names are built-ins — `npm format` is an
+      # unknown-command error. The toolkit's own self-CI passes `run test` for
+      # the same reason.
+      lint-command: run lint
+      format-command: run format
+      typecheck-command: run typecheck
+      test-command: run test
+      build-command: run build
+      # No Playwright here yet — the guest RSVP path is the one worth adding first.
+      e2e: none
+      # Vitest isn't configured for coverage output, so there'd be nothing to upload.
+      coverage: false
+    secrets: inherit
+
+  # A schema change is the least reversible thing this app does, so the PR shows
+  # exactly what a merge would apply, as a comment, before anyone approves it.
+  #
+  # Gated on a repo variable rather than running unconditionally: the toolkit
+  # declares its secrets `required: true`, so without them the job fails at the
+  # workflow-call boundary before any step runs — a red X that says nothing.
+  # Set DEPLOYMENTS_CONFIGURED=true once the secrets exist.
+  db-plan:
+    if: github.event_name == 'pull_request' && vars.DEPLOYMENTS_CONFIGURED == 'true'
+    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-supabase.yml@fix/toolkit-ref-for-consumers
+    with:
+      dry-run: true
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets: inherit
+
+  preview:
+    if: github.event_name == 'pull_request' && vars.DEPLOYMENTS_CONFIGURED == 'true'
+    needs: [ci]
+    uses: patrickisgreat/actions-toolkit/.github/workflows/deploy-vercel.yml@fix/toolkit-ref-for-consumers
+    with:
+      environment: preview
+      build-env: |
+        SUPABASE_URL=SUPABASE_URL
+        SUPABASE_KEY=SUPABASE_KEY
+    permissions:
+      contents: read
+      pull-requests: write
+    secrets: inherit

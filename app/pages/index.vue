@@ -26,7 +26,12 @@ watchEffect(() => {
         Your guests answer straight from their inbox — no account, no password, one click.
       </p>
 
-      <UButton to="/login" label="Sign in to get started" size="lg" trailing-icon="i-lucide-arrow-right" />
+      <UButton
+        to="/login"
+        label="Sign in to get started"
+        size="lg"
+        trailing-icon="i-lucide-arrow-right"
+      />
     </div>
   </div>
 </template>

@@ -20,16 +20,28 @@ const guestCount = computed(() => Math.max(0, props.roster.headcount - props.ros
 </script>
 
 <template>
-  <div v-if="hasAnything" class="space-y-3">
+  <div
+    v-if="hasAnything"
+    class="space-y-3"
+  >
     <!-- Headcount including guests, when anyone is bringing a +1. -->
-    <p v-if="guestCount > 0" class="text-sm font-medium">
+    <p
+      v-if="guestCount > 0"
+      class="text-sm font-medium"
+    >
       {{ roster.headcount }} expected
       <span class="text-muted font-normal">({{ roster.going.length }} going + {{ guestCount }} guest{{ guestCount === 1 ? '' : 's' }})</span>
     </p>
 
-    <div v-for="s in sections" :key="s.key">
+    <div
+      v-for="s in sections"
+      :key="s.key"
+    >
       <p class="text-xs font-semibold text-muted mb-1.5 flex items-center gap-1">
-        <UIcon :name="s.icon" :class="s.color" /> {{ s.label }} · {{ s.people.length }}
+        <UIcon
+          :name="s.icon"
+          :class="s.color"
+        /> {{ s.label }} · {{ s.people.length }}
       </p>
       <ul class="flex flex-wrap gap-1.5">
         <li
@@ -59,7 +71,10 @@ const guestCount = computed(() => Math.max(0, props.roster.headcount - props.ros
       </p>
     </div>
   </div>
-  <p v-else class="text-sm text-muted">
+  <p
+    v-else
+    class="text-sm text-muted"
+  >
     No RSVPs yet.
   </p>
 </template>

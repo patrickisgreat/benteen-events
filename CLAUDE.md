@@ -183,6 +183,30 @@ mostly unit, fewer integration, a handful of E2E on the critical paths.
 - Guest email addresses are the sensitive data here. A leak across hosts is the
   worst thing this app could do — which is what Invariants 1 and 5 exist to prevent.
 
+## Deployment & infrastructure
+
+Everything is code, split across three systems that deliberately do not overlap:
+
+- **`infra/*.tf`** — provisioning only (Supabase + Vercel projects, settings, env
+  vars, domain). Runs rarely.
+- **`supabase/migrations/*.sql`** — schema, RLS, triggers. Every merge.
+- **`supabase/config.toml`** — auth provider, site URL, redirect allow-list.
+  Every merge.
+
+Do not move schema into Terraform, and do not duplicate auth settings into
+`supabase_settings.auth`. Terraform running rarely is what keeps a schema change
+from being gated behind an apply, and two systems writing the same field fight.
+
+CI/CD comes from [actions-toolkit](https://github.com/patrickisgreat/actions-toolkit)
+by reference. Change the pipeline there, not here; this repo only supplies inputs.
+The workflow refs are pinned to `@main` until the toolkit cuts a `v1` tag — move
+them to `@v1` when it does.
+
+**The Supabase Terraform provider exposes only `id` on `supabase_project`** — not
+the anon key, service-role key, or URL. That is why bootstrapping is two applies,
+and why the keys are input variables rather than resource reads. See
+`infra/README.md` before changing anything there.
+
 ## Git Workflow
 
 - Always work from a feature branch; never commit to `main` directly.
